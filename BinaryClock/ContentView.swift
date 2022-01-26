@@ -7,26 +7,32 @@
 
 import SwiftUI
 
+struct OneBinary: Identifiable {
+    var id = UUID()
+    var num: String
+}
+
 struct ContentView: View {
     
-    @State var binaryStrs: [String] = []
+    // 24桁の2進数の各けたを一要素とした配列 ["1", "0", "0", "1", "0".......]
+    @State var oneBinaries: [OneBinary] = []
             
     var body: some View {
         
         LazyHGrid(rows: Array(repeating: .init(.fixed(40)), count: 4), spacing: 6, content: {
-            ForEach(0..<24) { index in
+            ForEach(oneBinaries) { oneBinary in
                 ZStack {
-                    Color.accentColor
+                    Color.secondary
                         .frame(width: 40)
-                    Text("\(index)")
+                    Text("\(oneBinary.num)")
+                        .foregroundColor(.primary)
                 }
-                
             }
         })
         .onAppear {
-//            updateClock()
+            updateClock()
             Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
-//                updateClock()
+                updateClock()
             }
         }
     }
@@ -41,23 +47,22 @@ struct ContentView: View {
         let hhmmss: String = hhmmssWithColon.replacingOccurrences(of: ":", with: "")
 
         // Create binary "hhhhhhhhmmmmmmmmssssssss" from "hhmmss"
-        var binaryHhmmss = ""
+        var newBinaryHhmmss = ""
         for i in 0..<hhmmss.count {
             let oneNumStr: String = String(hhmmss[hhmmss.index(hhmmss.startIndex, offsetBy: i)]) // "4" <- "451208"
             let binaryStr: String  = String(Int(oneNumStr)!, radix: 2) // "100" <- "4"
             let filledBinaryStr: String = String(format: "%04d", Int(binaryStr)!) // "0100" <- "100"
-            binaryHhmmss += filledBinaryStr
+            newBinaryHhmmss += filledBinaryStr
         }
         
         // Create array ["1", "0", "0", "0", "1", "1", "0" .....] from "hhhhhhhhmmmmmmmmssssssss"
-        var newBinaryStrs: [String] = []
-        for i in 0..<binaryHhmmss.count {
-            newBinaryStrs.append(String(binaryHhmmss[binaryHhmmss.index(binaryHhmmss.startIndex, offsetBy: i)]))
+        var newOneBinaries: [OneBinary] = []
+        for i in 0..<newBinaryHhmmss.count {
+            let num = String(newBinaryHhmmss[newBinaryHhmmss.index(newBinaryHhmmss.startIndex, offsetBy: i)])
+            newOneBinaries.append(OneBinary(num: num))
         }
-        print(newBinaryStrs)
-        print(newBinaryStrs.count)
-        
+    
         // Update binaryStrs
-        binaryStrs = newBinaryStrs
+        oneBinaries = newOneBinaries
     }
 }
