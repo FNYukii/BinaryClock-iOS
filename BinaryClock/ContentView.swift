@@ -8,15 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
-        
-//    var gridItems: [GridItem] = Array(repeating: .init(.fixed(52)), count: 4)
-    
+            
     var body: some View {
         
         LazyHGrid(rows: Array(repeating: .init(.fixed(40)), count: 4), spacing: 6, content: {
-            ForEach(0..<24) { _ in
-                Color.accentColor
-                    .frame(width: 40)
+            ForEach(0..<24) { index in
+                ZStack {
+                    Color.accentColor
+                        .frame(width: 40)
+                    Text("\(index)")
+                }
+                
             }
         })
         .onAppear {
