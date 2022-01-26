@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    @State var binaryStrs: [String] = []
             
     var body: some View {
         
@@ -22,8 +24,9 @@ struct ContentView: View {
             }
         })
         .onAppear {
+//            updateClock()
             Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
-                updateClock()
+//                updateClock()
             }
         }
     }
@@ -36,19 +39,25 @@ struct ContentView: View {
         dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "HHmmss", options: 0, locale: Locale(identifier: "ja_JP"))
         let hhmmssWithColon = dateFormatter.string(from: dt)
         let hhmmss: String = hhmmssWithColon.replacingOccurrences(of: ":", with: "")
-        print(hhmmss)
 
         // Create binary "hhhhhhhhmmmmmmmmssssssss" from "hhmmss"
         var binaryHhmmss = ""
         for i in 0..<hhmmss.count {
-            let oneNumChar: String = String(hhmmss[hhmmss.index(hhmmss.startIndex, offsetBy: i)]) // "4" <- "451208"
-            let binaryStr: String  = String(Int(oneNumChar)!, radix: 2) // "100" <- "4"
+            let oneNumStr: String = String(hhmmss[hhmmss.index(hhmmss.startIndex, offsetBy: i)]) // "4" <- "451208"
+            let binaryStr: String  = String(Int(oneNumStr)!, radix: 2) // "100" <- "4"
             let filledBinaryStr: String = String(format: "%04d", Int(binaryStr)!) // "0100" <- "100"
             binaryHhmmss += filledBinaryStr
         }
-        print(binaryHhmmss)
         
-        // TODO: Create 24 squares
+        // Create array ["1", "0", "0", "0", "1", "1", "0" .....] from "hhhhhhhhmmmmmmmmssssssss"
+        var newBinaryStrs: [String] = []
+        for i in 0..<binaryHhmmss.count {
+            newBinaryStrs.append(String(binaryHhmmss[binaryHhmmss.index(binaryHhmmss.startIndex, offsetBy: i)]))
+        }
+        print(newBinaryStrs)
+        print(newBinaryStrs.count)
         
+        // Update binaryStrs
+        binaryStrs = newBinaryStrs
     }
 }
