@@ -21,11 +21,14 @@ struct ContentView: View {
         
         LazyHGrid(rows: Array(repeating: .init(.fixed(40)), count: 4), spacing: 6, content: {
             ForEach(oneBinaries) { oneBinary in
-                ZStack {
-                    Color.secondary
+                
+                // 1なら正方形を表示
+                if oneBinary.num == "0" {
+                    Color.clear
                         .frame(width: 40)
-                    Text("\(oneBinary.num)")
-                        .foregroundColor(.primary)
+                } else {
+                    Color.primary
+                        .frame(width: 40)
                 }
             }
         })
@@ -45,6 +48,7 @@ struct ContentView: View {
         dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "HHmmss", options: 0, locale: Locale(identifier: "ja_JP"))
         let hhmmssWithColon = dateFormatter.string(from: dt)
         let hhmmss: String = hhmmssWithColon.replacingOccurrences(of: ":", with: "")
+        print(hhmmss)
 
         // Create binary "hhhhhhhhmmmmmmmmssssssss" from "hhmmss"
         var newBinaryHhmmss = ""
