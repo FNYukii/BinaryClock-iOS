@@ -26,7 +26,7 @@ struct ContentView: View {
                 if oneBinary.num == "0" {
                     Color.clear
                         .frame(width: 40)
-                        .border(Color.secondary, width: 1)
+                        .border(Color("squareBorder"), width: 1)
                 } else if oneBinary.num == "1" {
                     Color.primary
                         .frame(width: 40)
