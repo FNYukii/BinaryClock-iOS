@@ -8,31 +8,40 @@
 import SwiftUI
 
 struct ContentView: View {
-    
-    @State var str = ""
+        
+    var rows: [GridItem] = Array(repeating: .init(.fixed(50)), count: 4)
     
     var body: some View {
         
-        Text(str)
-            .font(.title)
-            .padding()
-            .onAppear {
-                updateClock()
-                Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
-                    updateClock()
+        LazyHGrid(rows: rows, alignment: .center, spacing: 2) {
+            ForEach((1...24), id: \.self) { num in
+                ZStack {
+                    Rectangle().foregroundColor(.accentColor)
+                        .frame(width: 40, height: 40)
+                    Text("\(num)").foregroundColor(.white)
                 }
             }
+        }
+        .onAppear {
+            Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
+                updateClock()
+            }
+        }
     }
     
     func updateClock() {
         
-        // Create hhmmss string
+        // Create "hhmmss" string
         let dt = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "HHmmss", options: 0, locale: Locale(identifier: "ja_JP"))
         let hhmmssWithColon = dateFormatter.string(from: dt)
         let hhmmss = hhmmssWithColon.replacingOccurrences(of: ":", with: "")
         
-        str = hhmmss
+        // TODO: Create binary "hhhhhhhhmmmmmmmmssssssss" from "hhmmss"
+        
+        // TODO: Create 24 squares
+        
+        print(hhmmss)
     }
 }
