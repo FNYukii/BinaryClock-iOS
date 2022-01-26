@@ -28,6 +28,7 @@ struct ContentView: View {
         let dt = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = DateFormatter.dateFormat(fromTemplate: "HHmmss", options: 0, locale: Locale(identifier: "ja_JP"))
-        hhmmss = dateFormatter.string(from: dt)
+        let hhmmssWithColon = dateFormatter.string(from: dt)
+        hhmmss = hhmmssWithColon.replacingOccurrences(of: ":", with: "")
     }
 }
