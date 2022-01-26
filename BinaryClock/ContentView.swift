@@ -27,8 +27,11 @@ struct ContentView: View {
                     Color.clear
                         .frame(width: 40)
                         .border(Color.secondary, width: 1)
-                } else {
+                } else if oneBinary.num == "1" {
                     Color.primary
+                        .frame(width: 40)
+                } else {
+                    Color.clear
                         .frame(width: 40)
                 }
             }
@@ -66,6 +69,12 @@ struct ContentView: View {
             let num = String(newBinaryHhmmss[newBinaryHhmmss.index(newBinaryHhmmss.startIndex, offsetBy: i)])
             newOneBinaries.append(OneBinary(num: num))
         }
+        
+        // 0, 1, 8, 16番目を9にする
+        newOneBinaries[0].num = "9"
+        newOneBinaries[1].num = "9"
+        newOneBinaries[8].num = "9"
+        newOneBinaries[16].num = "9"
     
         // Update binaryStrs
         oneBinaries = newOneBinaries
